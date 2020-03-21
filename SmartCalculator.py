@@ -1,41 +1,23 @@
-class Smart_Calculator:
-    dict = {}
+class SmartCalculator:
+    variables = {}
     stack = []
 
     def __hasNumbers(self, inputString):
         return any(char.isdigit() for char in inputString)
 
-    def __haswords(self, inputString):
+    def __hasWords(self, inputString):
         for i in inputString:
             if i.lower() in 'abcdefghijklmnopqrstuvwxyz':
                 return True
         return False
 
-    def __eq(self, input):
+    def __equationSign(self, input):
         for i in input:
             if "=" in i:
                 return True
         return False
 
-    def __multipleOP(self, op):
-        i = 0
-        l = len(op) - 1
-        while i < l:
 
-            if self.__hasNumbers(op[i]):
-                if op[i + 1] not in "-*+/":
-                    return -1
-            else:
-                if op[i + 1] in "-*+/":
-                    if op[i] in "*/":
-                        return -1
-                    else:
-                        if op[i] == "-" and op[i + 1] == "-":
-                            op.pop(i)
-                            op.pop(i)
-                            op.insert("+", i - 1)
-                            l -= 1
-        return 1
 
     def __operands(self, ops):
         tmp = ""
@@ -90,15 +72,15 @@ class Smart_Calculator:
 
     def __variables(self, op):
         for i in range(len(op)):
-            if (self.__haswords(self, op[i])):
-                if (self.dict.get(op[i]) != None):
-                    op[i] = str(self.dict.get(op[i]))
+            if (self.__hasWords(self, op[i])):
+                if (self.variables.get(op[i]) != None):
+                    op[i] = str(self.variables.get(op[i]))
                 else:
                     return -1
 
         return op
 
-    def __paran(op):
+    def __paranthesis(op):
         return op.count("(") == op.count(")")
 
     def __postfix(self,  postfix, op):
@@ -113,7 +95,7 @@ class Smart_Calculator:
             if i == "+" or i == "-":
                 if len(self.stack) > 0:
 
-                    if self.stack[-1] != "*" and self.stack[-1] != "/" and self.stack[-1] != "-" and stack[-1] != "+":
+                    if self.stack[-1] != "*" and self.stack[-1] != "/" and self.stack[-1] != "-" and self.stack[-1] != "+":
                         self.stack.append(i)
                     else:
                         while len(self.stack) > 0:
@@ -188,7 +170,7 @@ class Smart_Calculator:
                         print("Unknown command")
                         continue
 
-            if self.__eq(self, numbers):
+            if self.__equationSign(self, numbers):
 
                 numbers = numbers.replace(" ", "")
                 numbers = numbers.split("=")
@@ -198,17 +180,17 @@ class Smart_Calculator:
                 if (self.__hasNumbers(self, numbers[0])):
                     print("Invalid identifier")
                     continue
-                if self.haswords(self, numbers[1]):
-                    if (self.hasNumbers(numbers[1])):
+                if self.__hasWords(self, numbers[1]):
+                    if (self.__hasNumbers(numbers[1])):
                         print("Invalid assignment")
                         continue
-                    tmp = dict.get(numbers[1])
+                    tmp = self.variables.get(numbers[1])
                     if tmp == None:
                         print("Unknown variable")
                         continue
                 else:
                     tmp = int(numbers[1])
-                dict[numbers[0]] = tmp
+                self.variables[numbers[0]] = tmp
                 continue
 
             else:
@@ -233,7 +215,7 @@ class Smart_Calculator:
                         print(op[0] + op[1])
                         continue
 
-                if self.__paran(op) == False:
+                if self.__paranthesis(op) == False:
                     print("Invalid expression")
                     continue
 

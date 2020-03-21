@@ -1,6 +1,6 @@
 
 import SmartCalculator
 
-calculator = SmartCalculator.Smart_Calculator
+calculator = SmartCalculator.SmartCalculator
 calculator.menu(calculator)
 
